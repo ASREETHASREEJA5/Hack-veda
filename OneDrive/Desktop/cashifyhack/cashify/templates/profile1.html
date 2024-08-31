@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+   <h2 style="margin-bottom:1.5rem">Welcome!</h2>
+   <!-- Your existing content goes here -->
+   {% if user.is_authenticated %}
+      Hi {{ user.username }}!
+      <a href="/signout" style="color: white; background-color: red; padding: 10px; border-radius: 5px; text-decoration: none;">Logout</a>
+    {% else %}
+      <a href="/signin" style="color: white; background-color: blue; padding: 10px; border-radius: 5px; text-decoration: none;">Login</a> 
+      <a href="/signup" style="color: white; background-color: green; padding: 10px; border-radius: 5px; text-decoration: none;">Signup</a>
+    {% endif %}
+    <!-- Your existing content goes here -->
+   <h3 style="margin-top: 2rem;">Explore Devices</h3>
+   <form action="{% url 'delete_device' %}" method="post">
+        {% csrf_token %}
+        <div class="device-grid" style="display: flex; flex-wrap: wrap; margin-bottom:1.5rem;">
+            {% for device in devices %}
+                <div class="device-card" style="margin: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; width: 200px;">
+                    <input type="checkbox" name="devices_to_delete" value="{{ device.id }}">
+                    <img src="{{ device.image.url }}" alt="{{ device.brand }} {{ device.model }}" style="width: 100%;">
+                    <div class="device-info" style="padding: 10px;">
+                        <p style="margin: 0; font-weight: bold;">{{ device.brand }} {{ device.model }}</p>
+                        <p style="margin: 0;">Price: ${{ device.price }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit" style="color: white; background-color: red; padding: 5px; border-radius: 5px;">Delete Selected Devices</button>
+        <a href="{% url 'add_device' %}" style="color: white; background-color: blue;padding: 10px; border-radius: 5px; text-decoration: none;">Add Device</a>
+    </form>
+    
+{% endblock %}

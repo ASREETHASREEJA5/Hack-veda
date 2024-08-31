@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.tailwindcss.com">
+    <style>
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+        }
+    </style>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+        }
+    </style>
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    <section class="px-32 py-2 shadow-md flex items-center justify-between">
+        <div class="flex items-center">
+            <h1 class="text-[#42C8B7] font-bold text-2xl">Cashify</h1>
+            <div class="flex items-center bg-gray-100 gap-2 px-3 py-1 w-[700px] ml-10 rounded-md">
+                <h1>🔍</h1>
+                <input class="w-full bg-transparent border-none outline-none py-2" placeholder="Search for mobile and accessories" />
+            </div>
+        </div>
+        <div>
+            <a href="{% url 'signin' %}" class="bg-[#42C8B7] text-white px-8 py-1 rounded-md">Login</a>
+            <a href="{% url 'signup' %}" class="bg-[#42C8B7] text-white px-8 py-1 rounded-md">Signup</a>
+        </div>
+    </section>
+    <div class="px-32 mx-auto mt-10">
+        <div id="default-carousel" class="relative" data-carousel="static">
+            <div class="overflow-hidden relative h-96 rounded-lg ">
+                {% for slide in slides %}
+                <div class="duration-700 ease-in-out flex justify-around px-20 bg-{{ slide.background_color }}" data-carousel-item>
+                    <div class="my-auto">
+                        <h1 class="text-4xl font-bold text-white">{{ slide.title }}</h1>
+                        <h1 class="text-xl font-bold text-white mt-2">{{ slide.subtitle }}</h1>
+                        <div class="mt-16 flex gap-2">
+                            {% for button in slide.buttons %}
+                            <a href="{{ button.url }}" class="bg-{{ button.background_color }} text-white px-7 py-2 font-bold rounded-md">{{ button.text }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <img src="sell.jpg" alt="{{ slide.alt }}" class="w-4/12">
+                </div>
+                {% endfor %}
+                <!-- Slider indicators -->
+                <div class="flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2">
+                    {% for slide in slides %}
+                    <button type="button" class="w-4 h-[2px]" aria-current="false" aria-label="Slide {{ forloop.counter }}" data-carousel-slide-to="{{ forloop.counter0 }}"></button>
+                    {% endfor %}
+                </div>
+                <!-- Slider controls -->
+                <button type="button" class="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
+                    <span class="inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                    </span>
+                </button>
+                <button type="button" class="flex absolute top-0 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-next>
+                    <span class="inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
+</body>
+
+</html>
